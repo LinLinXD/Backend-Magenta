@@ -14,6 +14,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -26,9 +28,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {
         http.authorizeHttpRequests(authRequest -> {
-            authRequest .requestMatchers("/login","register").permitAll();
-            authRequest.requestMatchers("/modifyUser").authenticated();
-            authRequest.requestMatchers("/home").permitAll();
+            authRequest.requestMatchers("/login", "/register", "/", "/home").permitAll();
+            authRequest.requestMatchers("/css/**", "/js/**", "/images/**", "/uploads/**").authenticated();
+            authRequest.requestMatchers("/modifyUser", "/user/info").hasAnyRole("USER", "ADMIN");
             authRequest.anyRequest().authenticated();
         });
 
@@ -40,7 +42,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))  // Habilitamos CORS
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable());
 
         return http.build();
@@ -49,14 +51,16 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:9090"); // Ajusta al puerto de tu frontend
-        configuration.addAllowedMethod("*");
-        configuration.addAllowedHeader("*");
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:9090"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
+
 
 }
