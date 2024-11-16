@@ -1,17 +1,14 @@
-package com.magenta.persistence.entitiy;
+package com.magenta.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -56,6 +53,21 @@ public class UserEntity implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<RoleEntity> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<AppointmentEntity> appointments = new HashSet<>();
+
+    // Metodo de conveniencia para agregar una cita
+    public void addAppointment(AppointmentEntity appointment) {
+        appointments.add(appointment);
+        appointment.setUser(this);
+    }
+
+    // Metodo de conveniencia para remover una cita
+    public void removeAppointment(AppointmentEntity appointment) {
+        appointments.remove(appointment);
+        appointment.setUser(null);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

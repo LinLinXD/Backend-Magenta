@@ -28,10 +28,35 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {
         http.authorizeHttpRequests(authRequest -> {
-            authRequest.requestMatchers("/login", "/register", "/", "/home").permitAll();
-            authRequest.requestMatchers("/css/**", "/js/**", "/images/**", "/uploads/**").authenticated();
-            authRequest.requestMatchers("/modifyUser", "/user/info").hasAnyRole("USER", "ADMIN");
-            authRequest.anyRequest().authenticated();
+            // Rutas públicas
+            authRequest.requestMatchers(
+                    "/login",
+                    "/register",
+                    "/",
+                    "/home"
+            ).permitAll();
+
+            // Recursos estáticos
+            authRequest.requestMatchers(
+                    "/css/**",
+                    "/js/**",
+                    "/images/**",
+                    "/uploads/**"
+            ).permitAll();
+
+            // Rutas protegidas de citas que requieren autenticación
+            authRequest.requestMatchers(
+                    "/appointments/**",
+                    "/api/appointments/**",
+                    "/questionnaire/**",
+                    "/notifications/**"
+            ).authenticated();
+
+            // Rutas de usuario que requieren autenticación
+            authRequest.requestMatchers(
+                    "/modifyUser",
+                    "/user/info"
+            ).authenticated();
         });
 
 

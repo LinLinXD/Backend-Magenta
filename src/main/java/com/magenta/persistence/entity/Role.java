@@ -1,4 +1,4 @@
-package com.magenta.persistence.entitiy;
+package com.magenta.persistence.entity;
 
 public enum Role {
     ADMIN,

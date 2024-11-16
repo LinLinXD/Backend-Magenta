@@ -5,9 +5,9 @@ import com.magenta.dto.AuthDTO;
 import com.magenta.dto.LoginDTO;
 import com.magenta.dto.ModifyUserDTO;
 import com.magenta.dto.RegisterDTO;
-import com.magenta.persistence.entitiy.Role;
-import com.magenta.persistence.entitiy.RoleEntity;
-import com.magenta.persistence.entitiy.UserEntity;
+import com.magenta.persistence.entity.Role;
+import com.magenta.persistence.entity.RoleEntity;
+import com.magenta.persistence.entity.UserEntity;
 import com.magenta.persistence.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.io.IOException;
-import java.util.Base64;
-import java.util.Collections;
-import java.util.HashSet;
+
 import java.util.Set;
 import java.util.stream.Collectors;
 

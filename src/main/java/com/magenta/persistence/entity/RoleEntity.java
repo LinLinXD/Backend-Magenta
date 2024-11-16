@@ -1,4 +1,4 @@
-package com.magenta.persistence.entitiy;
+package com.magenta.persistence.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
