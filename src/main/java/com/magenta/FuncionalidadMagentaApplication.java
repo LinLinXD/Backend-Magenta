@@ -10,8 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJpaRepositories(basePackages = "com.magenta.persistence.repository")
 @EntityScan(basePackages = "com.magenta.persistence.entity")
 @SpringBootApplication(scanBasePackages = {"com.magenta"})
-@EnableScheduling  // Agregar esta anotación
-
+@EnableScheduling
 public class FuncionalidadMagentaApplication {
 
     public static void main(String[] args) {

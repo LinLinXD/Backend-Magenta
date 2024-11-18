@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
 public class AppointmentDTO {
     private Long id;
     private String username;
+    private String name;  // Nombre del usuario
+    private String email; // Email del usuario
     private LocalDateTime appointmentDateTime;
     private AppointmentStatus status;
     private EventType eventType;
@@ -37,6 +39,8 @@ public class AppointmentDTO {
         return AppointmentDTO.builder()
                 .id(entity.getId())
                 .username(entity.getUser() != null ? entity.getUser().getUsername() : null)
+                .name(entity.getUser() != null ? entity.getUser().getName() : null)
+                .email(entity.getUser() != null ? entity.getUser().getEmail() : null)
                 .appointmentDateTime(entity.getAppointmentDateTime())
                 .status(entity.getStatus())
                 .eventType(entity.getEventType())

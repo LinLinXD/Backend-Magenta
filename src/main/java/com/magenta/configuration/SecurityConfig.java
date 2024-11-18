@@ -57,6 +57,10 @@ public class SecurityConfig {
                     "/modifyUser",
                     "/user/info"
             ).authenticated();
+
+            authRequest.requestMatchers(
+                    "/admin/**"
+            ).hasRole("ADMIN");
         });
 
 

@@ -14,27 +14,15 @@ import java.util.List;
 public interface AppointmentNotificationRepository extends JpaRepository<AppointmentNotificationEntity, Long> {
 
     @Query("SELECT n FROM AppointmentNotificationEntity n " +
-            "WHERE n.notificationTime <= :now " +
-            "AND n.sent = false")
-    List<AppointmentNotificationEntity> findPendingNotifications(
-            @Param("now") LocalDateTime now
-    );
-
-    @Query("SELECT n FROM AppointmentNotificationEntity n " +
             "WHERE n.appointment.user.username = :username " +
             "AND n.read = false " +
+            "AND n.sent = true " +
             "ORDER BY n.notificationTime DESC")
     List<AppointmentNotificationEntity> findUnreadByUsername(
             @Param("username") String username
     );
 
-    @Query("SELECT n FROM AppointmentNotificationEntity n " +
-            "WHERE n.appointment.id = :appointmentId " +
-            "ORDER BY n.notificationTime ASC")
-    List<AppointmentNotificationEntity> findByAppointmentIdOrdered(
-            @Param("appointmentId") Long appointmentId
-    );
-
+    // Para contar notificaciones no leídas
     @Query("SELECT COUNT(n) FROM AppointmentNotificationEntity n " +
             "WHERE n.appointment.user.username = :username " +
             "AND n.read = false")
@@ -42,6 +30,7 @@ public interface AppointmentNotificationRepository extends JpaRepository<Appoint
             @Param("username") String username
     );
 
+    // Para marcar todas las notificaciones como leídas
     @Modifying
     @Query("UPDATE AppointmentNotificationEntity n " +
             "SET n.read = true " +
@@ -50,18 +39,17 @@ public interface AppointmentNotificationRepository extends JpaRepository<Appoint
             @Param("username") String username
     );
 
-    @Modifying
-    @Query("DELETE FROM AppointmentNotificationEntity n " +
-            "WHERE n.appointment.id = :appointmentId " +
-            "AND n.sent = false " +
-            "AND n.type != 'APPOINTMENT_CANCELLED'")
-    void deleteUnsentNotifications(@Param("appointmentId") Long appointmentId);
 
+    // Para encontrar notificaciones que deben enviarse en un rango de tiempo
     @Query("SELECT n FROM AppointmentNotificationEntity n " +
             "WHERE n.sent = false " +
-            "AND n.notificationTime <= :now " +
+            "AND n.notificationTime BETWEEN :startTime AND :endTime " +
             "AND n.appointment.status != 'CANCELLED' " +
             "ORDER BY n.notificationTime ASC")
-    List<AppointmentNotificationEntity> findNotificationsToSend(@Param("now") LocalDateTime now);
+    List<AppointmentNotificationEntity> findNotificationsToSend(
+            @Param("startTime") LocalDateTime startTime,
+            @Param("endTime") LocalDateTime endTime
+    );
+
 
 }

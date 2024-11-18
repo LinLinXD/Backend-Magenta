@@ -25,23 +25,22 @@ public class AuthController {
             try {
                 return ResponseEntity.ok(authService.login(request));
             } catch (Exception e) {
-                log.error("Error en login:", e);
                 return ResponseEntity.badRequest().body(AuthDTO.builder()
                         .error(e.getMessage())
                         .build());
             }
         }
 
+
+
     @PostMapping(value = "/register",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthDTO> register(@RequestBody RegisterDTO request) {
-        log.debug("Recibiendo solicitud de registro: {}", request);
         try {
             AuthDTO response = authService.register(request);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("Error en registro: ", e);
             return ResponseEntity.badRequest()
                     .body(AuthDTO.builder()
                             .error(e.getMessage())
@@ -58,10 +57,6 @@ public class AuthController {
             @RequestPart(value = "profileImage", required = false) MultipartFile profileImage) {
 
         try {
-            log.debug("📥 Recibiendo solicitud de modificación para usuario: {} con imagen: {}",
-                    username,
-                    profileImage != null ? profileImage.getSize() : "null");
-
             ModifyUserDTO dto = ModifyUserDTO.builder()
                     .name(name)
                     .email(email)
@@ -87,7 +82,6 @@ public class AuthController {
                 AuthDTO userInfo = authService.getUserInfo(username);
                 return ResponseEntity.ok(userInfo);
             } catch (Exception e) {
-                log.error("Error al obtener información del usuario:", e);
                 return ResponseEntity.badRequest().body(AuthDTO.builder()
                         .error(e.getMessage())
                         .build());

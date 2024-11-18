@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -14,22 +13,30 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class NotificationController {
-    private final AppointmentNotificationService notificationService;
+    private final AppointmentNotificationService notificationService; // Usar el service en lugar del repositorio directamente
 
-    // Obtener notificaciones no leídas de un usuario
     @GetMapping("/unread/{username}")
     public ResponseEntity<List<AppointmentNotificationDTO>> getUnreadNotifications(
             @PathVariable String username) {
         try {
-            List<AppointmentNotificationDTO> notifications =
-                    notificationService.getUnreadNotifications(username);
+            List<AppointmentNotificationDTO> notifications = notificationService.getUnreadNotifications(username);
             return ResponseEntity.ok(notifications);
         } catch (Exception e) {
-            log.error("Error al obtener las notificaciones: ", e);
+            log.error("Error al obtener notificaciones no leídas: ", e);
             return ResponseEntity.badRequest().build();
         }
     }
 
+    @GetMapping("/count/{username}")
+    public ResponseEntity<Long> getUnreadNotificationCount(@PathVariable String username) {
+        try {
+            long count = notificationService.getUnreadNotificationCount(username);
+            return ResponseEntity.ok(count);
+        } catch (Exception e) {
+            log.error("Error al obtener conteo de notificaciones: ", e);
+            return ResponseEntity.badRequest().build();
+        }
+    }
     // Marcar una notificación como leída
     @PutMapping("/{notificationId}/read")
     public ResponseEntity<Void> markNotificationAsRead(@PathVariable Long notificationId) {
@@ -54,15 +61,4 @@ public class NotificationController {
         }
     }
 
-    // Obtener el contador de notificaciones no leídas
-    @GetMapping("/count/{username}")
-    public ResponseEntity<Long> getUnreadNotificationCount(@PathVariable String username) {
-        try {
-            long count = notificationService.getUnreadNotificationCount(username);
-            return ResponseEntity.ok(count);
-        } catch (Exception e) {
-            log.error("Error al obtener el contador de notificaciones: ", e);
-            return ResponseEntity.badRequest().build();
-        }
-    }
 }

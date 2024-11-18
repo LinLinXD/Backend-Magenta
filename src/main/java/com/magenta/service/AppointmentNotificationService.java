@@ -36,53 +36,68 @@ public class AppointmentNotificationService {
         LocalDateTime appointmentTime = appointment.getAppointmentDateTime();
         LocalDateTime now = LocalDateTime.now();
 
-        // Solo crear notificación inmediata para la creación de la cita
-        notifications.add(createNotification(appointment,
+        // Crear solo la notificación de creación de cita
+        notifications.add(createNotification(
+                appointment,
                 now,
                 NotificationType.APPOINTMENT_CREATED,
-                true)); // Esta notificación se marca como enviada inmediatamente
+                true  // Esta notificación se envía inmediatamente
+        ));
 
-        // Las demás notificaciones se programan pero no se envían aún
+        // Programar las notificaciones futuras
         scheduleUpcomingNotifications(appointment, appointmentTime, now, notifications);
 
+        // Guardar todas las notificaciones
         notificationRepository.saveAll(notifications);
+
         log.debug("Creadas {} notificaciones para la cita {}",
                 notifications.size(), appointment.getId());
     }
 
-    private void scheduleUpcomingNotifications(AppointmentEntity appointment,
-                                               LocalDateTime appointmentTime, LocalDateTime now,
-                                               List<AppointmentNotificationEntity> notifications) {
+    private void scheduleUpcomingNotifications(
+            AppointmentEntity appointment,
+            LocalDateTime appointmentTime,
+            LocalDateTime now,
+            List<AppointmentNotificationEntity> notifications
+    ) {
         // 5 días antes
         if (appointmentTime.isAfter(now.plusDays(5))) {
-            notifications.add(createNotification(appointment,
+            notifications.add(createNotification(
+                    appointment,
                     appointmentTime.minusDays(5),
                     NotificationType.FIVE_DAYS_BEFORE,
-                    false));
+                    false  // No enviada aún
+            ));
         }
 
         // 2 días antes
         if (appointmentTime.isAfter(now.plusDays(2))) {
-            notifications.add(createNotification(appointment,
+            notifications.add(createNotification(
+                    appointment,
                     appointmentTime.minusDays(2),
                     NotificationType.TWO_DAYS_BEFORE,
-                    false));
+                    false
+            ));
         }
 
         // 1 día antes
         if (appointmentTime.isAfter(now.plusDays(1))) {
-            notifications.add(createNotification(appointment,
+            notifications.add(createNotification(
+                    appointment,
                     appointmentTime.minusDays(1),
                     NotificationType.ONE_DAY_BEFORE,
-                    false));
+                    false
+            ));
         }
 
         // 1 hora antes
         if (appointmentTime.isAfter(now.plusHours(1))) {
-            notifications.add(createNotification(appointment,
+            notifications.add(createNotification(
+                    appointment,
                     appointmentTime.minusHours(1),
                     NotificationType.ONE_HOUR_BEFORE,
-                    false));
+                    false
+            ));
         }
     }
 
@@ -90,74 +105,28 @@ public class AppointmentNotificationService {
             AppointmentEntity appointment,
             LocalDateTime notificationTime,
             NotificationType type,
-            boolean sent) {
+            boolean sent
+    ) {
         return AppointmentNotificationEntity.builder()
                 .appointment(appointment)
                 .notificationTime(notificationTime)
                 .type(type)
-                .sent(sent)  // Ahora controlamos si la notificación se marca como enviada
+                .sent(sent)
                 .read(false)
                 .build();
     }
 
-    @Scheduled(fixedRate = 60000) // Cada minuto
-    @Transactional
-    public void processNotifications() {
-        LocalDateTime now = LocalDateTime.now();
 
-        // Buscar notificaciones que deban enviarse en este momento
-        List<AppointmentNotificationEntity> pendingNotifications =
-                notificationRepository.findNotificationsToSend(now);
-
-        for (AppointmentNotificationEntity notification : pendingNotifications) {
-            try {
-                // Verificar que la cita no esté cancelada
-                if (notification.getAppointment().getStatus() != AppointmentStatus.CANCELLED) {
-                    if (shouldSendNotification(notification, now)) {
-                        notification.setSent(true);
-                        notificationRepository.save(notification);
-                        log.debug("Notificación {} procesada: {} para el tiempo {}",
-                                notification.getId(),
-                                notification.getType(),
-                                notification.getNotificationTime());
-                    }
-                } else {
-                    // Si la cita está cancelada, eliminar la notificación
-                    notificationRepository.delete(notification);
-                    log.debug("Notificación {} eliminada por cita cancelada",
-                            notification.getId());
-                }
-            } catch (Exception e) {
-                log.error("Error procesando notificación {}: {}",
-                        notification.getId(), e.getMessage());
-            }
-        }
+    private boolean shouldSendNotification(
+            AppointmentNotificationEntity notification,
+            LocalDateTime now
+    ) {
+        LocalDateTime notificationTime = notification.getNotificationTime();
+        return !notification.isSent() &&
+                notificationTime.isAfter(now.minusMinutes(1)) &&
+                notificationTime.isBefore(now.plusMinutes(1));
     }
 
-    private boolean shouldSendNotification(AppointmentNotificationEntity notification,
-                                           LocalDateTime now) {
-        // Verificar si es el momento de enviar la notificación
-        return notification.getNotificationTime().isBefore(now.plusMinutes(1)) &&
-                notification.getNotificationTime().isAfter(now.minusMinutes(1));
-    }
-
-    @Transactional
-    public void markNotificationAsRead(Long notificationId) {
-        AppointmentNotificationEntity notification = notificationRepository
-                .findById(notificationId)
-                .orElseThrow(() -> new RuntimeException("Notificación no encontrada"));
-
-        notification.setRead(true);
-        notificationRepository.save(notification);
-        log.debug("Notificación {} marcada como leída", notificationId);
-    }
-
-    @Transactional
-    public void markAllNotificationsAsRead(String username) {
-        notificationRepository.markAllAsRead(username);
-        log.debug("Todas las notificaciones del usuario {} marcadas como leídas",
-                username);
-    }
 
     public List<AppointmentNotificationDTO> getUnreadNotifications(String username) {
         return notificationRepository.findUnreadByUsername(username)
@@ -169,6 +138,59 @@ public class AppointmentNotificationService {
     public long getUnreadNotificationCount(String username) {
         return notificationRepository.countUnreadNotifications(username);
     }
+
+    public void markNotificationAsRead(Long notificationId) {
+        AppointmentNotificationEntity notification = notificationRepository
+                .findById(notificationId)
+                .orElseThrow(() -> new RuntimeException("Notificación no encontrada"));
+
+        notification.setRead(true);
+        notificationRepository.save(notification);
+    }
+
+    @Transactional
+    public void markAllNotificationsAsRead(String username) {
+        notificationRepository.markAllAsRead(username);
+    }
+
+    // Mantén los otros métodos existentes del servicio...
+
+    @Scheduled(fixedRate = 60000) // Cada minuto
+    @Transactional
+    public void processNotifications() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneMinuteAgo = now.minusMinutes(1);
+        LocalDateTime oneMinuteAhead = now.plusMinutes(1);
+
+        List<AppointmentNotificationEntity> pendingNotifications =
+                notificationRepository.findNotificationsToSend(oneMinuteAgo, oneMinuteAhead);
+
+        for (AppointmentNotificationEntity notification : pendingNotifications) {
+            try {
+                if (notification.getAppointment().getStatus() != AppointmentStatus.CANCELLED
+                        && !notification.isSent()
+                        && isTimeToSend(notification, now)) {
+
+                    notification.setSent(true);
+                    notificationRepository.save(notification);
+                    log.debug("Notificación {} enviada: {}",
+                            notification.getId(),
+                            notification.getType());
+                }
+            } catch (Exception e) {
+                log.error("Error procesando notificación {}: {}",
+                        notification.getId(),
+                        e.getMessage());
+            }
+        }
+    }
+
+    private boolean isTimeToSend(AppointmentNotificationEntity notification, LocalDateTime now) {
+        return notification.getNotificationTime().isAfter(now.minusMinutes(1))
+                && notification.getNotificationTime().isBefore(now.plusMinutes(1));
+    }
+
+
 
 
 }

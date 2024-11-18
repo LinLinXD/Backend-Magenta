@@ -20,6 +20,7 @@ public class AppointmentNotificationDTO {
     private Long appointmentId;
     private LocalDateTime notificationTime;
     private boolean read;
+    private boolean sent;
     private NotificationType type;
     private String message;
 
@@ -29,6 +30,7 @@ public class AppointmentNotificationDTO {
                 .appointmentId(entity.getAppointment().getId())
                 .notificationTime(entity.getNotificationTime())
                 .read(entity.isRead())
+                .sent(entity.isSent())
                 .type(entity.getType())
                 .message(generateNotificationMessage(entity))
                 .build();
@@ -53,30 +55,5 @@ public class AppointmentNotificationDTO {
             case APPOINTMENT_CANCELLED ->
                     "Tu cita programada para el " + appointmentDate + " ha sido cancelada";
         };
-    }
-
-    // Metodo de conveniencia para crear una notificación de cita creada
-    public static AppointmentNotificationDTO createAppointmentCreatedNotification(AppointmentEntity appointment) {
-        return AppointmentNotificationDTO.builder()
-                .appointmentId(appointment.getId())
-                .notificationTime(LocalDateTime.now())
-                .read(false)
-                .type(NotificationType.APPOINTMENT_CREATED)
-                .message("¡Cita creada exitosamente para el " +
-                        appointment.getAppointmentDateTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + "!")
-                .build();
-    }
-
-    // Metodo de conveniencia para crear una notificación de cita cancelada
-    public static AppointmentNotificationDTO createAppointmentCancelledNotification(AppointmentEntity appointment) {
-        return AppointmentNotificationDTO.builder()
-                .appointmentId(appointment.getId())
-                .notificationTime(LocalDateTime.now())
-                .read(false)
-                .type(NotificationType.APPOINTMENT_CANCELLED)
-                .message("Tu cita programada para el " +
-                        appointment.getAppointmentDateTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) +
-                        " ha sido cancelada")
-                .build();
     }
 }
