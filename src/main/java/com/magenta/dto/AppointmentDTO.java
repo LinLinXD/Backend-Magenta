@@ -1,13 +1,13 @@
 package com.magenta.dto;
 
-import com.magenta.persistence.entity.*;
-import jakarta.validation.constraints.NotNull;
+import com.magenta.persistence.entity.AppointmentEntity;
+import com.magenta.persistence.entity.AppointmentStatus;
+import com.magenta.persistence.entity.EventType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 
 import java.util.ArrayList;

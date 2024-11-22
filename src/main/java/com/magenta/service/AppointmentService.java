@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
         private final AppointmentNotificationService notificationService;
         private final AppointmentValidationService validationService;
 
-        private static final int MIN_HOURS_BEFORE_APPOINTMENT = 24;
         private static final int BUFFER_HOURS = 2;
         private static final int MAX_WORKING_HOUR = 18;
         private static final int MIN_WORKING_HOUR = 9;

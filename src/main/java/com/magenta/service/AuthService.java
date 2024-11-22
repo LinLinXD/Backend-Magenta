@@ -8,6 +8,7 @@ import com.magenta.dto.RegisterDTO;
 import com.magenta.persistence.entity.Role;
 import com.magenta.persistence.entity.RoleEntity;
 import com.magenta.persistence.entity.UserEntity;
+import com.magenta.persistence.repository.RoleRepository;
 import com.magenta.persistence.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +22,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 
 @Service
+
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
@@ -34,11 +37,9 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final ImageService imageService;
     private static final Logger log = LoggerFactory.getLogger(AuthService.class);
+    private final RoleRepository roleRepository;
 
 
-    /**
-     * Procesa el inicio de sesión del usuario
-     */
     public AuthDTO login(LoginDTO request) {
         // Autenticar al usuario
         authenticationManager.authenticate(
@@ -61,13 +62,11 @@ public class AuthService {
     public AuthDTO register(RegisterDTO request) {
         log.debug("Iniciando proceso de registro para usuario: {}", request.getUsername());
 
-
         // Validar si el usuario ya existe
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
             log.error("Usuario {} ya existe", request.getUsername());
             throw new RuntimeException("El nombre de usuario ya está en uso");
         }
-
 
         // Validar si el email ya existe
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -75,13 +74,15 @@ public class AuthService {
             throw new RuntimeException("El email ya está en uso");
         }
 
-
         try {
-            // Crear el rol de usuario
-            RoleEntity userRole = RoleEntity.builder()
-                    .name(Role.USER.name())
-                    .build();
-
+            // Obtener o crear el rol USER
+            RoleEntity userRole = roleRepository.findByName("USER")
+                    .orElseGet(() -> {
+                        RoleEntity newRole = RoleEntity.builder()
+                                .name(Role.USER.name())
+                                .build();
+                        return roleRepository.save(newRole); // Guardar el nuevo rol
+                    });
 
             // Crear la entidad de usuario
             UserEntity user = UserEntity.builder()
@@ -90,19 +91,15 @@ public class AuthService {
                     .name(request.getName())
                     .email(request.getEmail())
                     .phone(request.getPhone())
-                    .roles(Set.of(userRole))
+                    .roles(Set.of(userRole))  // Usar el rol (existente o nuevo)
                     .build();
 
-
             log.debug("Guardando nuevo usuario en la base de datos");
-
 
             // Guardar el usuario
             user = userRepository.save(user);
 
-
             log.debug("Usuario guardado exitosamente con ID: {}", user.getId());
-
 
             // Crear respuesta
             return AuthDTO.builder()
@@ -115,13 +112,11 @@ public class AuthService {
                             .collect(Collectors.toSet()))
                     .build();
 
-
         } catch (Exception e) {
             log.error("Error al registrar usuario: ", e);
             throw new RuntimeException("Error al registrar usuario: " + e.getMessage());
         }
     }
-
 
     /**
      * Obtiene la información de un usuario
