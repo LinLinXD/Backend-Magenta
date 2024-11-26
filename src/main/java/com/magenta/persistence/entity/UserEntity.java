@@ -14,6 +14,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Entidad para un usuario.
+ */
 @Entity
 @Table(name = "users")
 @Data
@@ -23,28 +26,28 @@ import java.util.stream.Collectors;
 public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // Identificador del usuario
 
     @Column(nullable = false, unique = true)
-    private String username;
+    private String username; // Nombre de usuario
 
     @Column(nullable = false)
-    private String password;
+    private String password; // Contraseña
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String email; // Correo electrónico
 
     @Column(nullable = false)
-    private String name;
+    private String name; // Nombre
 
-    private String phone;
+    private String phone; // Teléfono
 
     @Lob
     @Column(name = "profile_image", columnDefinition = "MEDIUMBLOB")
-    private byte[] profileImage;
+    private byte[] profileImage; // Imagen de perfil
 
     @Column(name = "image_content_type", length = 100)
-    private String imageContentType;
+    private String imageContentType; // Tipo de contenido de la imagen
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -52,18 +55,16 @@ public class UserEntity implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<RoleEntity> roles = new HashSet<>();
+    private Set<RoleEntity> roles = new HashSet<>(); // Roles del usuario
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<AppointmentEntity> appointments = new HashSet<>();
+    private Set<AppointmentEntity> appointments = new HashSet<>(); // Citas del usuario
 
-    // Metodo de conveniencia para agregar una cita
     public void addAppointment(AppointmentEntity appointment) {
         appointments.add(appointment);
         appointment.setUser(this);
     }
 
-    // Metodo de conveniencia para remover una cita
     public void removeAppointment(AppointmentEntity appointment) {
         appointments.remove(appointment);
         appointment.setUser(null);
@@ -96,4 +97,3 @@ public class UserEntity implements UserDetails {
         return true;
     }
 }
-

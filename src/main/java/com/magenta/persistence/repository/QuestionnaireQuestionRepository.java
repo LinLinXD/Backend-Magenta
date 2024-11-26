@@ -9,21 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repositorio para gestionar las preguntas del cuestionario.
+ */
 @Repository
 public interface QuestionnaireQuestionRepository extends JpaRepository<QuestionnaireQuestionEntity, Long> {
-
-    List<QuestionnaireQuestionEntity> findByEventType(EventType eventType);
-
-    @Query("SELECT q FROM QuestionnaireQuestionEntity q " +
-            "WHERE q.eventType = :eventType " +
-            "AND q.required = true")
-    List<QuestionnaireQuestionEntity> findRequiredQuestionsByEventType(
-            @Param("eventType") EventType eventType
-    );
-
-    @Query("SELECT DISTINCT q.eventType FROM QuestionnaireQuestionEntity q")
-    List<EventType> findAllEventTypes();
-
     @Query("SELECT q FROM QuestionnaireQuestionEntity q " +
             "LEFT JOIN FETCH q.options " +
             "WHERE q.eventType = :eventType")

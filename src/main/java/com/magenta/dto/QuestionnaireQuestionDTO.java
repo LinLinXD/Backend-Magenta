@@ -11,18 +11,27 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Data Transfer Object (DTO) para una pregunta del cuestionario.
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuestionnaireQuestionDTO {
-    private Long id;
-    private String questionText;
-    private QuestionType questionType;
-    private List<QuestionOptionDTO> options;
-    private boolean required;
-    private EventType eventType;
+    private Long id; // Identificador de la pregunta
+    private String questionText; // Texto de la pregunta
+    private QuestionType questionType; // Tipo de pregunta
+    private List<QuestionOptionDTO> options; // Opciones de la pregunta
+    private boolean required; // Indica si la pregunta es obligatoria
+    private EventType eventType; // Tipo de evento asociado a la pregunta
 
+    /**
+     * Convierte una entidad de pregunta del cuestionario a un DTO.
+     *
+     * @param entity la entidad de pregunta del cuestionario
+     * @return el DTO de la pregunta del cuestionario
+     */
     public static QuestionnaireQuestionDTO fromEntity(QuestionnaireQuestionEntity entity) {
         return QuestionnaireQuestionDTO.builder()
                 .id(entity.getId())

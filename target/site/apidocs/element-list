@@ -1,0 +1,8 @@
+com.magenta
+com.magenta.configuration
+com.magenta.controller
+com.magenta.dto
+com.magenta.filter
+com.magenta.persistence.entity
+com.magenta.persistence.repository
+com.magenta.service

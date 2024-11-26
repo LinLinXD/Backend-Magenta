@@ -19,6 +19,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Filtro de autenticación JWT.
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -35,14 +38,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final List<String> PROTECTED_URLS = Arrays.asList(
             "/user/info",
+            "/appointments",
+            "/appointments/new",
+            "/appointments/calendar",
+            "/appointments/my-appointments",
             "/modifyUser"
     );
 
     private static final List<String> STATIC_RESOURCES = Arrays.asList(
-            "/css/",
-            "/js/",
-            "/images/",
-            "/uploads/"
+            "/css/**",
+            "/javascript/**",
+            "/images/**",
+            "/uploads/**"
     );
 
     @Override
@@ -51,7 +58,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
             String path = request.getRequestURI();
-            log.debug("Processing request for path: {}", path);
 
             // Permitir recursos estáticos
             if (isStaticResource(path)) {
@@ -61,18 +67,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             // Si es una URL pública, permitir acceso
             if (isPublicUrl(path)) {
-                log.debug("Public URL accessed: {}", path);
                 filterChain.doFilter(request, response);
                 return;
             }
 
             String authHeader = request.getHeader("Authorization");
-            log.debug("Auth header present: {}", authHeader != null);
 
             // Si es una ruta protegida y no hay token, denegar acceso
             if (isProtectedUrl(path)) {
                 if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                    log.warn("Protected URL accessed without valid token: {}", path);
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     return;
                 }
@@ -86,7 +89,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
 
         } catch (Exception e) {
-            log.error("Error in JWT filter: ", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
@@ -106,11 +108,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     );
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
-                    log.debug("User authenticated: {}", username);
                 }
             }
         } catch (Exception e) {
-            log.error("Error processing token: ", e);
+            log.error("Error procesando el token: ", e);
         }
     }
 

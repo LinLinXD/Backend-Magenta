@@ -1,0 +1,115 @@
+@options
+@packages
+-classpath
+'C:/Users/Usuario/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.3.5/spring-boot-starter-data-jpa-3.3.5.jar;C:/Users/Usuario/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.3.5/spring-boot-starter-aop-3.3.5.jar;C:/Users/Usuario/.m2/repository/org/aspectj/aspectjweaver/1.9.22.1/aspectjweaver-1.9.22.1.jar;C:/Users/Usuario/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.3.5/spring-boot-starter-jdbc-3.3.5.jar;C:/Users/Usuario/.m2/repository/com/zaxxer/HikariCP/5.1.0/HikariCP-5.1.0.jar;C:/Users/Usuario/.m2/repository/org/springframework/spring-jdbc/6.1.14/spring-jdbc-6.1.14.jar;C:/Users/Usuario/.m2/repository/org/hibernate/orm/hibernate-core/6.5.3.Final/hibernate-core-6.5.3.Final.jar;C:/Users/Usuario/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar;C:/Users/Usuario/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar;C:/Users/Usuario/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar;C:/Users/Usuario/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar;C:/Users/Usuario/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar;C:/Users/Usuario/.m2/repository/org/springframework/data/spring-data-jpa/3.3.5/spring-data-jpa-3.3.5.jar;C:/Users/Usuario/.m2/repository/org/springframework/data/spring-data-commons/3.3.5/spring-data-commons-3.3.5.jar;C:/Users/Usuario/.m2/repository/org/springframework/spring-orm/6.1.14/spring-orm-6.1.14.jar;C:/Users/Usuario/.m2/repository/org/springframework/spring-context/6.1.14/spring-context-6.1.14.jar;C:/Users/Usuario/.m2/repository/org/springframework/spring-tx/6.1.14/spring-tx-6.1.14.jar;C:/Users/Usuario/.m2/repository/org/springframework/spring-beans/6.1.14/spring-beans-6.1.14.jar;C:/Users/Usuario/.m2/repository/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.jar;C:/Users/Usuario/.m2/repository/org/springframework/spring-aspects/6.1.14/spring-aspects-6.1.14.jar;C:/Users/Usuario/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.3.5/spring-boot-starter-security-3.3.5.jar;C:/Users/Usuario/.m2/repository/org/springframework/boot/spring-boot-starter/3.3.5/spring-boot-starter-3.3.5.jar;C:/Users/Usuario/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.3.5/spring-boot-starter-logging-3.3.5.jar;C:/Users/Usuario/.m2/repository/ch/qos/logback/logback-classic/1.5.11/logback-classic-1.5.11.jar;C:/Users/Usuario/.m2/repository/ch/qos/logback/logback-core/1.5.11/logback-core-1.5.11.jar;C:/Users/Usuario/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.23.1/log4j-to-slf4j-2.23.1.jar;C:/Users/Usuario/.m2/repository/org/apache/logging/log4j/log4j-api/2.23.1/log4j-api-2.23.1.jar;C:/Users/Usuario/.m2/repository/org/slf4j/jul-to-slf4j/2.0.16/jul-to-slf4j-2.0.16.jar;C:/Users/Usuario/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar;C:/Users/Usuario/.m2/repository/org/springframework/spring-aop/6.1.14/spring-aop-6.1.14.jar;C:/Users/Usuario/.m2/repository/org/springframework/security/spring-security-config/6.3.4/spring-security-config-6.3.4.jar;C:/Users/Usuario/.m2/repository/org/springframework/security/spring-security-web/6.3.4/spring-security-web-6.3.4.jar;C:/Users/Usuario/.m2/repository/org/springframework/spring-expression/6.1.14/spring-expression-6.1.14.jar;C:/Users/Usuario/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.3.5/spring-boot-starter-web-3.3.5.jar;C:/Users/Usuario/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.3.5/spring-boot-starter-json-3.3.5.jar;C:/Users/Usuario/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.17.2/jackson-datatype-jdk8-2.17.2.jar;C:/Users/Usuario/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.17.2/jackson-datatype-jsr310-2.17.2.jar;C:/Users/Usuario/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.17.2/jackson-module-parameter-names-2.17.2.jar;C:/Users/Usuario/.m2/repository/org/springframework/spring-web/6.1.14/spring-web-6.1.14.jar;C:/Users/Usuario/.m2/repository/io/micrometer/micrometer-observation/1.13.6/micrometer-observation-1.13.6.jar;C:/Users/Usuario/.m2/repository/io/micrometer/micrometer-commons/1.13.6/micrometer-commons-1.13.6.jar;C:/Users/Usuario/.m2/repository/org/springframework/spring-webmvc/6.1.14/spring-webmvc-6.1.14.jar;C:/Users/Usuario/.m2/repository/org/springframework/boot/spring-boot/3.3.5/spring-boot-3.3.5.jar;C:/Users/Usuario/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.3.5/spring-boot-autoconfigure-3.3.5.jar;C:/Users/Usuario/.m2/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar;C:/Users/Usuario/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.3.5/spring-boot-starter-tomcat-3.3.5.jar;C:/Users/Usuario/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar;C:/Users/Usuario/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.31/tomcat-embed-core-10.1.31.jar;C:/Users/Usuario/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.31/tomcat-embed-el-10.1.31.jar;C:/Users/Usuario/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.31/tomcat-embed-websocket-10.1.31.jar;C:/Users/Usuario/.m2/repository/org/springframework/spring-core/6.1.14/spring-core-6.1.14.jar;C:/Users/Usuario/.m2/repository/org/springframework/spring-jcl/6.1.14/spring-jcl-6.1.14.jar;C:/Users/Usuario/.m2/repository/org/springframework/security/spring-security-core/6.3.4/spring-security-core-6.3.4.jar;C:/Users/Usuario/.m2/repository/org/springframework/security/spring-security-crypto/6.3.4/spring-security-crypto-6.3.4.jar;C:/Users/Usuario/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar;C:/Users/Usuario/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.17.2/jackson-databind-2.17.2.jar;C:/Users/Usuario/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.17.2/jackson-annotations-2.17.2.jar;C:/Users/Usuario/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.17.2/jackson-core-2.17.2.jar;C:/Users/Usuario/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.3.5/spring-boot-starter-validation-3.3.5.jar;C:/Users/Usuario/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.1.Final/hibernate-validator-8.0.1.Final.jar;C:/Users/Usuario/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar;C:/Users/Usuario/.m2/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar;C:/Users/Usuario/.m2/repository/commons-codec/commons-codec/1.15/commons-codec-1.15.jar;C:/Users/Usuario/.m2/repository/org/imgscalr/imgscalr-lib/4.2/imgscalr-lib-4.2.jar'
+-encoding
+'UTF-8'
+-protected
+--release
+21
+-sourcepath
+'C:/Users/Usuario/Desktop/funcionalidadMagenta/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2024. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/Usuario/Desktop/funcionalidadMagenta/target/site/apidocs'
+-docencoding
+'UTF-8'
+-Xdoclint:none
+-doctitle
+'funcionalidadMagenta 0.0.1-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'funcionalidadMagenta 0.0.1-SNAPSHOT API'
+com.magenta.configuration
+com.magenta.controller
+com.magenta.dto
+com.magenta.filter
+com.magenta
+com.magenta.persistence.entity
+com.magenta.persistence.repository
+com.magenta.service
+C:\Users\Usuario\.m2\repository\org\springframework\boot\spring-boot-starter-data-jpa\3.3.5\spring-boot-starter-data-jpa-3.3.5.jar = 1729982683007
+C:\Users\Usuario\.m2\repository\org\springframework\boot\spring-boot-starter-aop\3.3.5\spring-boot-starter-aop-3.3.5.jar = 1729982683040
+C:\Users\Usuario\.m2\repository\org\aspectj\aspectjweaver\1.9.22.1\aspectjweaver-1.9.22.1.jar = 1728508248398
+C:\Users\Usuario\.m2\repository\org\springframework\boot\spring-boot-starter-jdbc\3.3.5\spring-boot-starter-jdbc-3.3.5.jar = 1729982682997
+C:\Users\Usuario\.m2\repository\com\zaxxer\HikariCP\5.1.0\HikariCP-5.1.0.jar = 1728508248157
+C:\Users\Usuario\.m2\repository\org\springframework\spring-jdbc\6.1.14\spring-jdbc-6.1.14.jar = 1729982683066
+C:\Users\Usuario\.m2\repository\org\hibernate\orm\hibernate-core\6.5.3.Final\hibernate-core-6.5.3.Final.jar = 1728508248474
+C:\Users\Usuario\.m2\repository\jakarta\persistence\jakarta.persistence-api\3.1.0\jakarta.persistence-api-3.1.0.jar = 1728322132086
+C:\Users\Usuario\.m2\repository\jakarta\transaction\jakarta.transaction-api\2.0.1\jakarta.transaction-api-2.0.1.jar = 1728322132264
+C:\Users\Usuario\.m2\repository\org\jboss\logging\jboss-logging\3.5.3.Final\jboss-logging-3.5.3.Final.jar = 1728508248016
+C:\Users\Usuario\.m2\repository\com\fasterxml\classmate\1.7.0\classmate-1.7.0.jar = 1728508248081
+C:\Users\Usuario\.m2\repository\org\antlr\antlr4-runtime\4.13.0\antlr4-runtime-4.13.0.jar = 1728508124323
+C:\Users\Usuario\.m2\repository\org\springframework\data\spring-data-jpa\3.3.5\spring-data-jpa-3.3.5.jar = 1729982683047
+C:\Users\Usuario\.m2\repository\org\springframework\data\spring-data-commons\3.3.5\spring-data-commons-3.3.5.jar = 1729982683025
+C:\Users\Usuario\.m2\repository\org\springframework\spring-orm\6.1.14\spring-orm-6.1.14.jar = 1729982683035
+C:\Users\Usuario\.m2\repository\org\springframework\spring-context\6.1.14\spring-context-6.1.14.jar = 1729982308702
+C:\Users\Usuario\.m2\repository\org\springframework\spring-tx\6.1.14\spring-tx-6.1.14.jar = 1729982682989
+C:\Users\Usuario\.m2\repository\org\springframework\spring-beans\6.1.14\spring-beans-6.1.14.jar = 1729982308571
+C:\Users\Usuario\.m2\repository\org\slf4j\slf4j-api\2.0.16\slf4j-api-2.0.16.jar = 1728144275612
+C:\Users\Usuario\.m2\repository\org\springframework\spring-aspects\6.1.14\spring-aspects-6.1.14.jar = 1729982683008
+C:\Users\Usuario\.m2\repository\org\springframework\boot\spring-boot-starter-security\3.3.5\spring-boot-starter-security-3.3.5.jar = 1729982308698
+C:\Users\Usuario\.m2\repository\org\springframework\boot\spring-boot-starter\3.3.5\spring-boot-starter-3.3.5.jar = 1729982308720
+C:\Users\Usuario\.m2\repository\org\springframework\boot\spring-boot-starter-logging\3.3.5\spring-boot-starter-logging-3.3.5.jar = 1729982308695
+C:\Users\Usuario\.m2\repository\ch\qos\logback\logback-classic\1.5.11\logback-classic-1.5.11.jar = 1729982308730
+C:\Users\Usuario\.m2\repository\ch\qos\logback\logback-core\1.5.11\logback-core-1.5.11.jar = 1729982308529
+C:\Users\Usuario\.m2\repository\org\apache\logging\log4j\log4j-to-slf4j\2.23.1\log4j-to-slf4j-2.23.1.jar = 1728144275526
+C:\Users\Usuario\.m2\repository\org\apache\logging\log4j\log4j-api\2.23.1\log4j-api-2.23.1.jar = 1728144275538
+C:\Users\Usuario\.m2\repository\org\slf4j\jul-to-slf4j\2.0.16\jul-to-slf4j-2.0.16.jar = 1728144275536
+C:\Users\Usuario\.m2\repository\org\yaml\snakeyaml\2.2\snakeyaml-2.2.jar = 1728144275579
+C:\Users\Usuario\.m2\repository\org\springframework\spring-aop\6.1.14\spring-aop-6.1.14.jar = 1729982308528
+C:\Users\Usuario\.m2\repository\org\springframework\security\spring-security-config\6.3.4\spring-security-config-6.3.4.jar = 1729982308712
+C:\Users\Usuario\.m2\repository\org\springframework\security\spring-security-web\6.3.4\spring-security-web-6.3.4.jar = 1729982308720
+C:\Users\Usuario\.m2\repository\org\springframework\spring-expression\6.1.14\spring-expression-6.1.14.jar = 1729982308505
+C:\Users\Usuario\.m2\repository\org\springframework\boot\spring-boot-starter-web\3.3.5\spring-boot-starter-web-3.3.5.jar = 1729982308739
+C:\Users\Usuario\.m2\repository\org\springframework\boot\spring-boot-starter-json\3.3.5\spring-boot-starter-json-3.3.5.jar = 1729982308674
+C:\Users\Usuario\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jdk8\2.17.2\jackson-datatype-jdk8-2.17.2.jar = 1728144556468
+C:\Users\Usuario\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jsr310\2.17.2\jackson-datatype-jsr310-2.17.2.jar = 1728144556587
+C:\Users\Usuario\.m2\repository\com\fasterxml\jackson\module\jackson-module-parameter-names\2.17.2\jackson-module-parameter-names-2.17.2.jar = 1728144556495
+C:\Users\Usuario\.m2\repository\org\springframework\spring-web\6.1.14\spring-web-6.1.14.jar = 1729982308624
+C:\Users\Usuario\.m2\repository\io\micrometer\micrometer-observation\1.13.6\micrometer-observation-1.13.6.jar = 1729982308544
+C:\Users\Usuario\.m2\repository\io\micrometer\micrometer-commons\1.13.6\micrometer-commons-1.13.6.jar = 1729982308741
+C:\Users\Usuario\.m2\repository\org\springframework\spring-webmvc\6.1.14\spring-webmvc-6.1.14.jar = 1729982308838
+C:\Users\Usuario\.m2\repository\org\springframework\boot\spring-boot\3.3.5\spring-boot-3.3.5.jar = 1729982308643
+C:\Users\Usuario\.m2\repository\org\springframework\boot\spring-boot-autoconfigure\3.3.5\spring-boot-autoconfigure-3.3.5.jar = 1729982308848
+C:\Users\Usuario\.m2\repository\org\projectlombok\lombok\1.18.34\lombok-1.18.34.jar = 1729023524225
+C:\Users\Usuario\.m2\repository\org\springframework\boot\spring-boot-starter-tomcat\3.3.5\spring-boot-starter-tomcat-3.3.5.jar = 1729982308731
+C:\Users\Usuario\.m2\repository\jakarta\annotation\jakarta.annotation-api\2.1.1\jakarta.annotation-api-2.1.1.jar = 1728144275546
+C:\Users\Usuario\.m2\repository\org\apache\tomcat\embed\tomcat-embed-core\10.1.31\tomcat-embed-core-10.1.31.jar = 1729982308901
+C:\Users\Usuario\.m2\repository\org\apache\tomcat\embed\tomcat-embed-el\10.1.31\tomcat-embed-el-10.1.31.jar = 1729982308961
+C:\Users\Usuario\.m2\repository\org\apache\tomcat\embed\tomcat-embed-websocket\10.1.31\tomcat-embed-websocket-10.1.31.jar = 1729982308739
+C:\Users\Usuario\.m2\repository\org\springframework\spring-core\6.1.14\spring-core-6.1.14.jar = 1729982308477
+C:\Users\Usuario\.m2\repository\org\springframework\spring-jcl\6.1.14\spring-jcl-6.1.14.jar = 1729982308659
+C:\Users\Usuario\.m2\repository\org\springframework\security\spring-security-core\6.3.4\spring-security-core-6.3.4.jar = 1729982308608
+C:\Users\Usuario\.m2\repository\org\springframework\security\spring-security-crypto\6.3.4\spring-security-crypto-6.3.4.jar = 1729982308639
+C:\Users\Usuario\.m2\repository\io\jsonwebtoken\jjwt-api\0.11.5\jjwt-api-0.11.5.jar = 1730676269165
+C:\Users\Usuario\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.17.2\jackson-databind-2.17.2.jar = 1728144556477
+C:\Users\Usuario\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.17.2\jackson-annotations-2.17.2.jar = 1728144556546
+C:\Users\Usuario\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.17.2\jackson-core-2.17.2.jar = 1728144556563
+C:\Users\Usuario\.m2\repository\org\springframework\boot\spring-boot-starter-validation\3.3.5\spring-boot-starter-validation-3.3.5.jar = 1730080742701
+C:\Users\Usuario\.m2\repository\org\hibernate\validator\hibernate-validator\8.0.1.Final\hibernate-validator-8.0.1.Final.jar = 1729553624217
+C:\Users\Usuario\.m2\repository\jakarta\validation\jakarta.validation-api\3.0.2\jakarta.validation-api-3.0.2.jar = 1728322132151
+C:\Users\Usuario\.m2\repository\org\apache\commons\commons-lang3\3.12.0\commons-lang3-3.12.0.jar = 1726259081295
+C:\Users\Usuario\.m2\repository\commons-codec\commons-codec\1.15\commons-codec-1.15.jar = 1729481824476
+C:\Users\Usuario\.m2\repository\org\imgscalr\imgscalr-lib\4.2\imgscalr-lib-4.2.jar = 1731340796996
+C:\Users\Usuario\Desktop\funcionalidadMagenta\src\main\java = 1730730284480
+C:\Users\Usuario\Desktop\funcionalidadMagenta\target\site\apidocs\allclasses-index.html = 1732377987214
+C:\Users\Usuario\Desktop\funcionalidadMagenta\target\site\apidocs\allpackages-index.html = 1732377987215
+C:\Users\Usuario\Desktop\funcionalidadMagenta\target\site\apidocs\element-list = 1732377986972
+C:\Users\Usuario\Desktop\funcionalidadMagenta\target\site\apidocs\help-doc.html = 1732377987242
+C:\Users\Usuario\Desktop\funcionalidadMagenta\target\site\apidocs\index-all.html = 1732377987236
+C:\Users\Usuario\Desktop\funcionalidadMagenta\target\site\apidocs\index.html = 1732377987200
+C:\Users\Usuario\Desktop\funcionalidadMagenta\target\site\apidocs\member-search-index.js = 1732377987219
+C:\Users\Usuario\Desktop\funcionalidadMagenta\target\site\apidocs\module-search-index.js = 1732377987216
+C:\Users\Usuario\Desktop\funcionalidadMagenta\target\site\apidocs\overview-summary.html = 1732377987239
+C:\Users\Usuario\Desktop\funcionalidadMagenta\target\site\apidocs\overview-tree.html = 1732377987196
+C:\Users\Usuario\Desktop\funcionalidadMagenta\target\site\apidocs\package-search-index.js = 1732377987217
+C:\Users\Usuario\Desktop\funcionalidadMagenta\target\site\apidocs\search.html = 1732377987237
+C:\Users\Usuario\Desktop\funcionalidadMagenta\target\site\apidocs\serialized-form.html = 1732377987033
+C:\Users\Usuario\Desktop\funcionalidadMagenta\target\site\apidocs\tag-search-index.js = 1732377987220
+C:\Users\Usuario\Desktop\funcionalidadMagenta\target\site\apidocs\type-search-index.js = 1732377987218

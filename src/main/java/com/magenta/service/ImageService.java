@@ -1,5 +1,6 @@
 package com.magenta.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,11 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.Iterator;
 
+/**
+ * Servicio para gestionar imágenes.
+ */
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class ImageService {
     @Value("${app.image.max-size:5242880}") // 5MB por defecto
@@ -29,24 +34,25 @@ public class ImageService {
     private static final float COMPRESSION_QUALITY = 0.7f;
     private static final int MAX_BYTES = 65536; // 64KB máximo
 
+    /**
+     * Procesa una imagen redimensionándola y comprimiéndola.
+     *
+     * @param file el archivo de imagen
+     * @return los bytes de la imagen procesada
+     * @throws IOException si ocurre un error al procesar la imagen
+     */
     public byte[] processImage(MultipartFile file) throws IOException {
         if (file == null || file.isEmpty()) {
-            log.warn("Archivo de imagen vacío o nulo");
             return null;
         }
 
         try {
-            // Obtener los bytes originales
             byte[] originalBytes = file.getBytes();
-            log.debug("📥 Bytes originales leídos: {}", originalBytes.length);
-
-            // Leer la imagen original
             BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(originalBytes));
             if (originalImage == null) {
                 throw new IOException("No se pudo leer la imagen");
             }
 
-            // Calcular nuevas dimensiones
             int originalWidth = originalImage.getWidth();
             int originalHeight = originalImage.getHeight();
 
@@ -58,7 +64,6 @@ public class ImageService {
             int newWidth = (int) (originalWidth * scale);
             int newHeight = (int) (originalHeight * scale);
 
-            // Crear imagen redimensionada
             BufferedImage resizedImage = new BufferedImage(
                     newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
 
@@ -73,7 +78,6 @@ public class ImageService {
             g.drawImage(originalImage, 0, 0, newWidth, newHeight, null);
             g.dispose();
 
-            // Compresión iterativa
             float quality = COMPRESSION_QUALITY;
             byte[] imageData;
 
@@ -101,19 +105,13 @@ public class ImageService {
                 ios.close();
                 baos.close();
 
-                quality *= 0.8f; // Reducir la calidad en un 20% en cada iteración
-
-                log.debug("Intento de compresión: calidad={}, tamaño={} bytes",
-                        quality, imageData.length);
+                quality *= 0.8f;
 
             } while (imageData.length > MAX_BYTES && quality > 0.1f);
 
             if (imageData.length > MAX_BYTES) {
                 throw new IOException("No se pudo comprimir la imagen lo suficiente");
             }
-
-            log.debug("Imagen procesada exitosamente: {} bytes con calidad {}",
-                    imageData.length, quality);
 
             return imageData;
 
@@ -123,13 +121,13 @@ public class ImageService {
         }
     }
 
-    public String getImageContentType(MultipartFile file) {
-        if (file == null) {
-            return null;
-        }
-        return "image/jpeg"; // Siempre JPEG después del procesamiento
-    }
-
+    /**
+     * Convierte una imagen a base64.
+     *
+     * @param imageData los bytes de la imagen
+     * @param contentType el tipo de contenido de la imagen
+     * @return la imagen en formato base64
+     */
     public String convertImageToBase64(byte[] imageData, String contentType) {
         if (imageData == null || contentType == null) {
             log.debug("No hay datos de imagen para convertir a base64");
@@ -138,34 +136,34 @@ public class ImageService {
 
         try {
             String base64Image = Base64.getEncoder().encodeToString(imageData);
-            log.debug("Imagen convertida a base64: {} caracteres", base64Image.length());
             return "data:" + contentType + ";base64," + base64Image;
         } catch (Exception e) {
-            log.error("Error al convertir imagen a base64: ", e);
             return null;
         }
     }
 
+    /**
+     * Valida una imagen.
+     *
+     * @param file el archivo de imagen
+     */
     public void validateImage(MultipartFile file) {
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("Archivo de imagen inválido");
         }
 
-        // Validar tamaño original
         if (file.getSize() > maxFileSize) {
             throw new IllegalArgumentException(
                     String.format("La imagen no debe superar los %d MB", maxFileSize / (1024 * 1024))
             );
         }
 
-        // Validar tipo de archivo
         String contentType = file.getContentType();
         if (contentType == null || !contentType.startsWith("image/")) {
             throw new IllegalArgumentException("El archivo debe ser una imagen");
         }
 
-        // Validar que sea un formato de imagen soportado
-        String[] supportedFormats = {"image/jpeg", "image/png", "image/gif"};
+        String[] supportedFormats = {"image/jpeg", "image/png", "image/gif", "image/jpg"};
         boolean isSupported = false;
         for (String format : supportedFormats) {
             if (contentType.equals(format)) {
@@ -178,7 +176,6 @@ public class ImageService {
         }
 
         try {
-            // Intentar leer la imagen para validar que es una imagen válida
             BufferedImage img = ImageIO.read(file.getInputStream());
             if (img == null) {
                 throw new IllegalArgumentException("El archivo no es una imagen válida");
@@ -186,34 +183,5 @@ public class ImageService {
         } catch (IOException e) {
             throw new IllegalArgumentException("No se pudo leer la imagen: " + e.getMessage());
         }
-    }
-
-    private BufferedImage resizeImage(BufferedImage originalImage) {
-        int targetWidth = MAX_WIDTH;
-        int targetHeight = MAX_HEIGHT;
-
-        // Mantener la relación de aspecto
-        double aspectRatio = (double) originalImage.getWidth() / originalImage.getHeight();
-        if (aspectRatio > 1) {
-            targetHeight = (int) (targetWidth / aspectRatio);
-        } else {
-            targetWidth = (int) (targetHeight * aspectRatio);
-        }
-
-        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight,
-                BufferedImage.TYPE_INT_RGB);
-        Graphics2D graphics2D = resizedImage.createGraphics();
-
-        graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY);
-        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-
-        graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
-        graphics2D.dispose();
-
-        return resizedImage;
     }
 }

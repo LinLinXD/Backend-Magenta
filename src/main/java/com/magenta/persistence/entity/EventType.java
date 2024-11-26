@@ -1,12 +1,15 @@
 package com.magenta.persistence.entity;
 
+/**
+ * Tipo de evento.
+ */
 public enum EventType {
-    WEDDING("Boda"),
-    SWEET_FIFTEEN("Quinceañera"),
-    COMMUNION("Comunión"),
-    BAPTISM("Bautizo"),
-    CORPORATE("Evento Corporativo"),
-    OTHER("Otro");
+    WEDDING("Boda"), // Boda
+    SWEET_FIFTEEN("Quinceañera"), // Quinceañera
+    COMMUNION("Comunión"), // Comunión
+    BAPTISM("Bautizo"), // Bautizo
+    CORPORATE("Evento Corporativo"), // Evento Corporativo
+    OTHER("Otro"); // Otro
 
     private final String displayName;
 

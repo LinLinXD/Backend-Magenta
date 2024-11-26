@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Repositorio para gestionar las notificaciones de citas.
+ */
 @Repository
 public interface AppointmentNotificationRepository extends JpaRepository<AppointmentNotificationEntity, Long> {
 
@@ -39,7 +42,6 @@ public interface AppointmentNotificationRepository extends JpaRepository<Appoint
             @Param("username") String username
     );
 
-
     // Para encontrar notificaciones que deben enviarse en un rango de tiempo
     @Query("SELECT n FROM AppointmentNotificationEntity n " +
             "WHERE n.sent = false " +
@@ -50,6 +52,4 @@ public interface AppointmentNotificationRepository extends JpaRepository<Appoint
             @Param("startTime") LocalDateTime startTime,
             @Param("endTime") LocalDateTime endTime
     );
-
-
 }

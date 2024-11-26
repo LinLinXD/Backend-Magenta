@@ -1,8 +1,11 @@
 package com.magenta.persistence.entity;
 
+/**
+ * Estado de la cita.
+ */
 public enum AppointmentStatus {
-    PENDING,
-    CONFIRMED,
-    CANCELLED,
-    COMPLETED
+    PENDING, // Pendiente
+    CONFIRMED, // Confirmada
+    CANCELLED, // Cancelada
+    COMPLETED // Completada
 }

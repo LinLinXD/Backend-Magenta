@@ -16,6 +16,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+/**
+ * Configuración de seguridad de la aplicación.
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -24,11 +27,16 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
 
+    /**
+     * Configura la cadena de filtros de seguridad.
+     *
+     * @param http el objeto HttpSecurity para configurar la seguridad HTTP
+     * @return la cadena de filtros de seguridad configurada
+     * @throws Exception si ocurre un error durante la configuración
+     */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
-    {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authRequest -> {
-            // Rutas públicas
             authRequest.requestMatchers(
                     "/login",
                     "/register",
@@ -36,7 +44,6 @@ public class SecurityConfig {
                     "/home"
             ).permitAll();
 
-            // Recursos estáticos
             authRequest.requestMatchers(
                     "/css/**",
                     "/js/**",
@@ -44,7 +51,6 @@ public class SecurityConfig {
                     "/uploads/**"
             ).permitAll();
 
-            // Rutas protegidas de citas que requieren autenticación
             authRequest.requestMatchers(
                     "/appointments/**",
                     "/api/appointments/**",
@@ -52,7 +58,6 @@ public class SecurityConfig {
                     "/notifications/**"
             ).authenticated();
 
-            // Rutas de usuario que requieren autenticación
             authRequest.requestMatchers(
                     "/modifyUser",
                     "/user/info"
@@ -63,8 +68,7 @@ public class SecurityConfig {
             ).hasRole("ADMIN");
         });
 
-
-        http.sessionManagement(sessionManager-> sessionManager
+        http.sessionManagement(sessionManager -> sessionManager
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.authenticationProvider(authenticationProvider)
@@ -77,10 +81,15 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Configura la fuente de configuración CORS.
+     *
+     * @return la fuente de configuración CORS configurada
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://localhost:9090")); // Actualiza el puerto frontend
+        configuration.setAllowedOrigins(Arrays.asList("https://localhost:9090"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
@@ -89,6 +98,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-
 }

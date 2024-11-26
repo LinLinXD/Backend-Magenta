@@ -1,10 +1,13 @@
 package com.magenta.persistence.entity;
 
+/**
+ * Tipo de notificación.
+ */
 public enum NotificationType {
-    FIVE_DAYS_BEFORE,
-    TWO_DAYS_BEFORE,
-    ONE_DAY_BEFORE,
-    ONE_HOUR_BEFORE,
-    APPOINTMENT_CREATED,  // Nueva notificación para citas creadas
-    APPOINTMENT_CANCELLED // También podríamos agregar esta para cancelaciones
+    FIVE_DAYS_BEFORE, // Cinco días antes
+    TWO_DAYS_BEFORE, // Dos días antes
+    ONE_DAY_BEFORE, // Un día antes
+    ONE_HOUR_BEFORE, // Una hora antes
+    APPOINTMENT_CREATED,
+    APPOINTMENT_CANCELLED
 }

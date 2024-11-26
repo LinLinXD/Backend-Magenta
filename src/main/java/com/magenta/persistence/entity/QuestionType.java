@@ -1,9 +1,12 @@
 package com.magenta.persistence.entity;
 
+/**
+ * Tipo de pregunta.
+ */
 public enum QuestionType {
-    MULTIPLE_CHOICE,
-    SINGLE_CHOICE,
-    TEXT,
-    DATE,
-    NUMBER
+    MULTIPLE_CHOICE, // Opción múltiple
+    SINGLE_CHOICE, // Opción única
+    TEXT, // Texto
+    DATE, // Fecha
+    NUMBER // Número
 }

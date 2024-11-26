@@ -9,11 +9,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Data Transfer Object (DTO) para la entidad Appointment.
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -30,7 +32,12 @@ public class AppointmentDTO {
     private LocalDateTime createdAt;
     private String error;
 
-    // Constructor personalizado para conversión desde Entity
+    /**
+     * Convierte una entidad AppointmentEntity a un AppointmentDTO.
+     *
+     * @param entity la entidad AppointmentEntity a convertir
+     * @return el objeto AppointmentDTO resultante
+     */
     public static AppointmentDTO fromEntity(AppointmentEntity entity) {
         if (entity == null) {
             return null;

@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Controlador para la gestión de cuestionarios.
+ */
 @RestController
 @RequestMapping("/questionnaire")
 @RequiredArgsConstructor
@@ -21,7 +24,12 @@ import java.util.stream.Collectors;
 public class QuestionnaireController {
     private final QuestionnaireQuestionRepository questionRepository;
 
-    // Obtener preguntas por tipo de evento
+    /**
+     * Obtiene las preguntas por tipo de evento.
+     *
+     * @param eventType el tipo de evento
+     * @return una lista de preguntas del cuestionario
+     */
     @GetMapping("/questions/{eventType}")
     public ResponseEntity<List<QuestionnaireQuestionDTO>> getQuestionsByEventType(
             @PathVariable EventType eventType) {

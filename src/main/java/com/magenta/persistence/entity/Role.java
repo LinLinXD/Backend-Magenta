@@ -1,6 +1,9 @@
 package com.magenta.persistence.entity;
 
+/**
+ * Rol de usuario.
+ */
 public enum Role {
-    ADMIN,
-    USER
+    ADMIN, // Administrador
+    USER // Usuario
 }

@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Data Transfer Object (DTO) para la autenticación.
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -23,11 +26,19 @@ public class AuthDTO {
     private String phone;
     private String error;
 
-    // Para la imagen en base64
     private String profileImageUrl;
 
-    // Constructor personalizado para la construcción más fácil
+    /**
+     * Constructor personalizado para la construcción más fácil.
+     */
     public static class AuthDTOBuilder {
+        /**
+         * Establece la URL de la imagen de perfil a partir de datos en base64.
+         *
+         * @param imageData los datos de la imagen en formato byte[]
+         * @param contentType el tipo de contenido de la imagen
+         * @return el constructor AuthDTOBuilder
+         */
         public AuthDTOBuilder profileImageFromBase64(byte[] imageData, String contentType) {
             if (imageData != null && contentType != null) {
                 String base64Image = java.util.Base64.getEncoder().encodeToString(imageData);

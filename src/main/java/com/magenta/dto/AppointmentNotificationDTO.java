@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
+/**
+ * Data Transfer Object (DTO) para la entidad AppointmentNotification.
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -24,6 +26,12 @@ public class AppointmentNotificationDTO {
     private NotificationType type;
     private String message;
 
+    /**
+     * Convierte una entidad AppointmentNotificationEntity a un AppointmentNotificationDTO.
+     *
+     * @param entity la entidad AppointmentNotificationEntity a convertir
+     * @return el objeto AppointmentNotificationDTO resultante
+     */
     public static AppointmentNotificationDTO fromEntity(AppointmentNotificationEntity entity) {
         return AppointmentNotificationDTO.builder()
                 .id(entity.getId())
@@ -36,6 +44,12 @@ public class AppointmentNotificationDTO {
                 .build();
     }
 
+    /**
+     * Genera un mensaje de notificación basado en el tipo de notificación.
+     *
+     * @param notification la entidad AppointmentNotificationEntity
+     * @return el mensaje de notificación generado
+     */
     private static String generateNotificationMessage(AppointmentNotificationEntity notification) {
         AppointmentEntity appointment = notification.getAppointment();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");

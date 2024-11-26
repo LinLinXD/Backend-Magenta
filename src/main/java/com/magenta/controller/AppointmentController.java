@@ -14,22 +14,27 @@ import org.springframework.http.ResponseEntity;
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
-
+/**
+ * Controlador para la gestión de citas.
+ */
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
 @Slf4j
 public class AppointmentController {
     private final AppointmentService appointmentService;
-    private final AppointmentNotificationService notificationService;
-
-    // Crear una nueva cita
+    /**
+     * Crear una nueva cita.
+     *
+     * @param createDTO los datos para crear la cita
+     * @param username el nombre de usuario del cliente
+     * @return la cita creada
+     */
     @PostMapping("/appointments")
     public ResponseEntity<AppointmentDTO> createAppointment(
             @RequestBody CreateAppointmentDTO createDTO,
             @RequestParam String username) {
         try {
-            log.debug("Creando cita para usuario: {} con datos: {}", username, createDTO);
             AppointmentDTO appointment = appointmentService.createAppointment(username, createDTO);
             return ResponseEntity.ok(appointment);
         } catch (Exception e) {
@@ -42,7 +47,12 @@ public class AppointmentController {
         }
     }
 
-    // Obtener todas las citas de un usuario
+    /**
+     * Obtener todas las citas de un usuario.
+     *
+     * @param username el nombre de usuario del cliente
+     * @return una lista de citas del usuario
+     */
     @GetMapping("/appointments/user/{username}")
     public ResponseEntity<List<AppointmentDTO>> getUserAppointments(
             @PathVariable String username) {
@@ -50,12 +60,16 @@ public class AppointmentController {
             List<AppointmentDTO> appointments = appointmentService.getUserAppointments(username);
             return ResponseEntity.ok(appointments);
         } catch (Exception e) {
-            log.error("Error al obtener las citas del usuario: ", e);
             return ResponseEntity.badRequest().build();
         }
     }
 
-    // Obtener una cita específica
+    /**
+     * Obtener una cita específica.
+     *
+     * @param appointmentId el ID de la cita
+     * @return los detalles de la cita
+     */
     @GetMapping("/appointments/{appointmentId}")
     public ResponseEntity<AppointmentDTO> getAppointment(
             @PathVariable Long appointmentId) {
@@ -63,12 +77,17 @@ public class AppointmentController {
             AppointmentDTO appointment = appointmentService.getAppointmentById(appointmentId);
             return ResponseEntity.ok(appointment);
         } catch (Exception e) {
-            log.error("Error al obtener la cita: ", e);
             return ResponseEntity.badRequest().build();
         }
     }
 
-    // Actualizar el estado de una cita
+    /**
+     * Actualizar el estado de una cita.
+     *
+     * @param appointmentId el ID de la cita
+     * @param status el nuevo estado de la cita
+     * @return la cita actualizada
+     */
     @PutMapping("/appointments/{appointmentId}/status")
     public ResponseEntity<AppointmentDTO> updateAppointmentStatus(
             @PathVariable Long appointmentId,
@@ -77,24 +96,32 @@ public class AppointmentController {
             AppointmentDTO appointment = appointmentService.updateAppointmentStatus(appointmentId, status);
             return ResponseEntity.ok(appointment);
         } catch (Exception e) {
-            log.error("Error al actualizar el estado de la cita: ", e);
             return ResponseEntity.badRequest().build();
         }
     }
 
-    // Cancelar una cita
+    /**
+     * Cancelar una cita.
+     *
+     * @param appointmentId el ID de la cita
+     * @return una respuesta vacía indicando éxito o error
+     */
     @DeleteMapping("/appointments/{appointmentId}")
     public ResponseEntity<Void> cancelAppointment(@PathVariable Long appointmentId) {
         try {
             appointmentService.cancelAppointment(appointmentId);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            log.error("Error al cancelar la cita: ", e);
             return ResponseEntity.badRequest().build();
         }
     }
 
-    // Obtener disponibilidad de horarios para una fecha específica
+    /**
+     * Obtener disponibilidad de horarios para una fecha específica.
+     *
+     * @param date la fecha para la cual se desea consultar la disponibilidad
+     * @return una lista de horarios disponibles
+     */
     @GetMapping("/appointments/availability")
     public ResponseEntity<List<TimeSlotDTO>> getAvailability(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
